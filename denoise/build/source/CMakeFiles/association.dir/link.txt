@@ -1,0 +1,2 @@
+/usr/bin/ar qc libassociation.a  CMakeFiles/association.dir/DirectWarpDenoiser.cpp.o CMakeFiles/association.dir/gridTracker.cpp.o CMakeFiles/association.dir/Fast_klt.cpp.o CMakeFiles/association.dir/Mesh.cpp.o CMakeFiles/association.dir/MeshFlow.cpp.o CMakeFiles/association.dir/MotionDenoiser.cpp.o CMakeFiles/association.dir/VideoIO.cpp.o
+/usr/bin/ranlib libassociation.a

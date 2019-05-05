@@ -1,0 +1,9 @@
+cv::Mat Index = cv::Mat::zeros(height,width,CV_8UC2);
+
+for(int i=0;i<height;i++){
+   for(int j=0;j<width;j++){
+       Index.at<cv::Vec2b>(i,j)[0] = j;
+	Index.at<cv::Vec2b>(i,j)[1] = i;   
+   }
+}
+

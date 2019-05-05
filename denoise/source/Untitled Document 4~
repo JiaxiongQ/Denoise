@@ -1,0 +1,84 @@
+#include "MeshFlow.h"
+#include "VideoIO.h"
+#include "gridTracker.h"
+#include "time.h"
+#include "Fast_klt.h"
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+#include <queue>
+#include <deque>  
+#include <fstream>
+#include <eigen3/Eigen/Dense>
+#include "opencv2/gpu/gpu.hpp"
+#include <opencv2/core/ocl.hpp>
+#define N 3//3 or 4
+#define tau 155
+#define PI 3.1415926535898
+#define sqrtPI std::sqrt(PI / 2)
+#ifndef __MotionDenoiser__
+#define __MotionDenoiser__
+
+class MotionDenoiser{
+
+public:
+	int m_height;
+	int m_width;
+	int m_frameNum;
+	cv::Size m_size;
+	double m_fps;
+	bool flag = true;
+	int c;
+	float tempMean1,tempMean2;
+	double times = 0.0;
+	bool startFlag = false;
+	bool newFlag = false;
+	int counter;
+public:
+	MotionDenoiser(char* name);
+	void Execute();
+	void SaveResult(char* name);
+	
+private:
+	vector<cv::Mat> m_frames,dst,m_framesG;
+	vector<cv::Mat> map_X, map_Y;
+	vector<cv::UMat> map_XU, map_YU;
+	vector<cv::Mat> temp_map_X, temp_map_Y;
+	vector<cv::UMat> temp_map_XU, temp_map_YU;
+	vector<cv::UMat> m_tempst;
+	vector<cv::UMat> Uframes,Udst;
+	vector<cv::UMat> map_XUs,map_YUs;
+	deque<cv::UMat> UqueueL,UqueueR; 
+	cv::UMat map_XUt,map_YUt,Uframe0;
+	cv::UMat m_mask;
+	cv::UMat m_dst_tempU,m_dst_tempUt;
+	cv::UMat m_temp; 
+	cv::UMat m_mapedX, m_mapedY;
+	cv::UMat m_mapedXt, m_mapedYt;
+	cv::UMat m_Counter_adderUt;
+	cv::Mat formatX, formatY;
+	cv::UMat formatXU, formatYU;
+	cv::UMat m_Counter_adderU;
+	cv::UMat temp;
+	cv::UMat temp1;
+	cv::UMat temp2;
+	cv::UMat temp3;
+	cv::UMat temp4;
+	cv::UMat temp5;
+	cv::UMat temp6;
+	cv::UMat mask_temp;
+	cv::UMat sigma;
+	cv::UMat noise ;
+	cv::UMat L_mask;
+private:
+	void MotionEstimation();
+	void AbsoluteMotion(int reference);
+	void TargetFrameBuild(int reference);
+	float ComputeNoise(int reference);
+	float ComputeNoiseStd();
+	UMat ComputeLmmse(vector<UMat> &m_temps,UMat &sigma2,UMat &temp2);
+	void queue2vector();
+	void Judge(int reference);
+};
+#endif

@@ -1,0 +1,6 @@
+/home/xxd/Desktop/qjxtemp/denoise/build/CMakeFiles/edit_cache.dir
+/home/xxd/Desktop/qjxtemp/denoise/build/CMakeFiles/rebuild_cache.dir
+/home/xxd/Desktop/qjxtemp/denoise/build/CMakeFiles/VideoDenoiser.dir
+/home/xxd/Desktop/qjxtemp/denoise/build/source/CMakeFiles/edit_cache.dir
+/home/xxd/Desktop/qjxtemp/denoise/build/source/CMakeFiles/rebuild_cache.dir
+/home/xxd/Desktop/qjxtemp/denoise/build/source/CMakeFiles/association.dir

@@ -1,0 +1,98 @@
+#pragma once
+
+#include <vector>
+#include <stdio.h>
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <time.h>
+using namespace std;
+
+#ifndef __QUAD__
+#define __QUAD__
+
+class Quad
+{
+public:
+	cv::Point2f V00;
+	cv::Point2f V01;
+	cv::Point2f V10;
+	cv::Point2f V11;
+	
+	Quad();
+	Quad(const Quad &inQuad);
+	Quad(const cv::Point2f &inV00, const cv::Point2f &inV01, const cv::Point2f &inV10, const cv::Point2f &inV11);
+	~Quad();
+
+	void operator=(const Quad &inQuad);
+	
+	double getMinX() const;
+	double getMaxX() const;
+	double getMinY() const;
+	double getMaxY() const;
+
+	bool isPointIn(const cv::Point2f &pt) const;
+	bool getBilinearCoordinates(const cv::Point2f &pt, vector<double> &coefficient) const;
+	bool getBilinearCoordinates(const cv::Point2f &pt, double* &coefficient) const;
+	inline void printQuad(){
+	}
+	
+	cv::Point2f getPointByBilinearCoordinates(const vector<double> &coefficient) const;
+};
+
+#endif
+
+#ifndef __MESH__
+#define __MESH__
+
+class Mesh
+{
+public:
+	int imgRows;
+	int imgCols;
+
+	int width;
+	int height;
+
+	int quadWidth;
+	int quadHeight;
+
+	Mesh();
+	Mesh(const Mesh &inMesh);
+	Mesh(int rows, int cols);
+	Mesh(int rows, int cols, double quadWidth, double quadHeight);
+	~Mesh();
+
+	void operator=(const Mesh &inMesh);
+	double differentFrom(const Mesh &inMesh) const;
+
+	cv::Point2f getVertex(int i, int j) const;
+	Quad getQuad(int i,int j) const;
+	void setVertex(int i, int j, const cv::Point2f &pos);
+
+	void initialize(int w, int h);
+	void buildMesh(double quadWidth, double quadHeight);
+
+	void drawMesh(cv::Mat &targetImg);
+
+	bool selfCheck();
+
+	void smoothMesh();
+
+	void HomographyTransformation(const cv::Mat &H);
+
+private:
+	cv::Mat xMat;
+	cv::Mat yMat;
+};
+
+#endif
+
+bool isPointInTriangular( const cv::Point2f &pt, const cv::Point2f &V0, const cv::Point2f &V1, const cv::Point2f &V2 );
+cv::Point2f matMyPointCVMat(const cv::Point2f &pt,const cv::Mat &H);//called by WarpByUpdateMatrix()
+
+void meshWarp( const cv::Mat &src, cv::Mat &dst, const Mesh &m1, const Mesh &m2);
+void quadWarp( const cv::Mat &src, cv::Mat &dst, const Quad &q1, const Quad &q2);
+void meshWarp_multicore(const cv::Mat &src, cv::Mat &dst, const Mesh &m1, const Mesh &m2);
+void meshWarpRemap(cv::Mat &src, cv::Mat &dst, cv::Mat &mapX, cv::Mat &mapY, Mesh &m1, Mesh &m2);
+void myQuickSort(vector<float> &arr, int left, int right);
