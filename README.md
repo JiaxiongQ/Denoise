@@ -1,3 +1,3 @@
 # Denoise
-This repository contains the code (in C++) for real-time video denoising.
+This repository contains the code (in C++) for Fast video denoising.
  
